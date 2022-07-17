@@ -2,6 +2,9 @@ import * as sedk from '../src'
 
 describe('simple Cypher', () => {
   const cypher = new sedk.Step()
+  afterEach(() => {
+    cypher.cleanUp()
+  })
   it('Produce: [MATCH (n:Person) RETURN n]', () => {
     const actual = cypher.match(['Person']).return().getCypher()
 

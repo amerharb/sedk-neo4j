@@ -1,0 +1,50 @@
+{
+  "name": "sedk-neo4j",
+  "version": "0.0.1",
+  "description": "Cypher builder and validator for Neo4j",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src/**/*.d.ts",
+    "dist/src/**/*.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amerharb/sedk-neo4j.git"
+  },
+  "homepage": "https://github.com/amerharb/sedk-neo4j#readme",
+  "url": "https://github.com/amerharb/sedk-neo4j/issues",
+  "email": "sedk@amerharb.com",
+  "scripts": {
+    "start": "tsc && node dist/src/index.js",
+    "build": "tsc",
+    "test": "jest",
+    "build&test": "tsc && jest",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix"
+  },
+  "keywords": [
+    "SQL",
+    "SQL Builder",
+    "Postgresql",
+    "Postgres",
+    "sedk"
+  ],
+  "author": "Amer Harb",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "7.16.5",
+    "@babel/preset-env": "7.16.5",
+    "@babel/preset-typescript": "7.16.5",
+    "@types/jest": "28.1.2",
+    "@typescript-eslint/eslint-plugin": "5.7.0",
+    "@typescript-eslint/parser": "5.7.0",
+    "babel-jest": "27.4.5",
+    "eslint": "8.4.1",
+    "jest": "28.1.1",
+    "ts-node": "10.4.0",
+    "typescript": "4.5.4"
+  }
+}

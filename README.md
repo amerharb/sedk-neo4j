@@ -13,7 +13,7 @@ const database = {
   }
 }
 
-const actual = cypher.match([database.Labels.Person]).return().getCypher()
+const actual = cypher.match(database.Labels.Person).return().getCypher()
 // MATCH (n:Person) RETURN n
 ```
 ### DISCLAIMER

@@ -3,7 +3,7 @@ import { Label } from './Label'
 export class Step implements Match, Return{
   private matchLabels: Label[] = []
 
-  public match(labels: Label[]): Match {
+  public match(...labels: Label[]): Match {
     this.matchLabels.push(...labels)
     return this
   }
@@ -13,7 +13,8 @@ export class Step implements Match, Return{
   }
 
   public getCypher(): string {
-    return `MATCH (n:${this.matchLabels.map(label => `${label.name}`).join(':')}) RETURN n`
+    const matchArray = ['n', ...this.matchLabels.map(label => `${label.name}`)]
+    return `MATCH (${matchArray.join(':')}) RETURN n`
   }
 
   public cleanUp(): void {

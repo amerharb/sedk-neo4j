@@ -1,7 +1,9 @@
-export class Step implements Match, Return{
-  private matchLabels: string[] = []
+import { Label } from './Label'
 
-  public match(labels: string[]): Match {
+export class Step implements Match, Return{
+  private matchLabels: Label[] = []
+
+  public match(labels: Label[]): Match {
     this.matchLabels.push(...labels)
     return this
   }
@@ -11,7 +13,7 @@ export class Step implements Match, Return{
   }
 
   public getCypher(): string {
-    return `MATCH (n:${this.matchLabels.join(':')}) RETURN n`
+    return `MATCH (n:${this.matchLabels.map(label => `${label.name}`).join(':')}) RETURN n`
   }
 
   public cleanUp(): void {

@@ -26,10 +26,10 @@
     "lint-fix": "eslint . --fix"
   },
   "keywords": [
-    "SQL",
-    "SQL Builder",
-    "Postgresql",
-    "Postgres",
+    "Cypher",
+    "Cypher Builder",
+    "neo4j",
+    "Graph Database",
     "sedk"
   ],
   "author": "Amer Harb",

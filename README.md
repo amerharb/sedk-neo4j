@@ -5,5 +5,17 @@
 
 SEDK-neo4j is a Cypher builder library for Neo4j, support binding parameters, and use a pre-defined Label and Relation
 
-THIS IS STILL A WORK IN PROGRESS PROF OF CONCEPT PROJECT
+```typescript
+const database = {
+  Labels: {
+    Person: new Label('Person'),
+    Animal: new Label('Animal'),
+  }
+}
+
+const actual = cypher.match([database.Labels.Person]).return().getCypher()
+// MATCH (n:Person) RETURN n
+```
+### DISCLAIMER
+THIS IS STILL A WORK IN PROGRESS FOR PROF OF CONCEPT PROJECT
 USE IT FOR EDUCATION PURPOSE ONLY

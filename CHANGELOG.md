@@ -1,7 +1,7 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.0.2]  2022-07-17
+## [0.0.2]  2022-07-20
 ### Added
 - documentation
 - make Label a class

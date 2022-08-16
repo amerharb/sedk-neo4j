@@ -1,6 +1,10 @@
 import * as sedk from '../src'
 import { database } from './database'
 
+// Aliases
+const Person = database.Labels.Person
+const Animal = database.Labels.Animal
+
 describe('simple Cypher', () => {
   const cypher = new sedk.Step()
   afterEach(() => {
@@ -17,8 +21,7 @@ describe('simple Cypher', () => {
     expect(actual).toBe('MATCH (n:Person) RETURN n')
   })
   it('Produce: [MATCH (n:Person:Animal) RETURN n]', () => {
-    const labels = [database.Labels.Person, database.Labels.Animal]
-    const actual = cypher.match(...labels).return().getCypher()
+    const actual = cypher.match(Person, Animal).return().getCypher()
 
     expect(actual).toBe('MATCH (n:Person:Animal) RETURN n')
   })

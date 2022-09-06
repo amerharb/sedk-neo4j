@@ -28,7 +28,7 @@ describe('Step', () => {
 			expect(actual).toBe('MATCH (n) RETURN n, n, n')
 		})
 		it('Produce: [MATCH (:Person) RETURN n]', () => {
-			const actual = cypher.match(database.Labels.Person).return(n).getCypher()
+			const actual = cypher.match(Person).return(n).getCypher()
 
 			expect(actual).toBe('MATCH (:Person) RETURN n')
 		})

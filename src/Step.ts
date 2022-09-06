@@ -19,6 +19,9 @@ export class Step implements Root, Match, Return {
 	}
 
 	public return(...variables: Variable[]): Return {
+		if (variables.length === 0) {
+			throw new Error('At least one variable must be provided')
+		}
 		this.returnParts.push(...variables)
 		return this
 	}

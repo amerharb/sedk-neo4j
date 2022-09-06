@@ -50,15 +50,20 @@ describe('Step', () => {
 	})
 
 	describe('Throwing Errors', () => {
-		it('Throws: ', () => {
+		it('Throws: No variable or labels provided (match)', () => {
 			const actual = () => cypher.match()
 
 			expect(actual).toThrow('No variable or labels provided')
 		})
-		it('Throws: ', () => {
+		it('Throws: No variable or labels provided (getCypher)', () => {
 			const actual = () => cypher.getCypher()
 
 			expect(actual).toThrow('No variable or labels provided')
+		})
+		it('Throws: At least one variable must be provided', () => {
+			const actual = () => cypher.match(n).return()
+
+			expect(actual).toThrow('At least one variable must be provided')
 		})
 	})
 })

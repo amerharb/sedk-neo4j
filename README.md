@@ -25,6 +25,10 @@ const cypher = sedk.builder()
 const stmt = cypher.match(n, Person).return(n).getCypher()
 // MATCH (n:Person) RETURN n
 ```
+
+## Steps Rail Road
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-neo4j/main/doc/StepsRailRoad.svg)
+
 ### DISCLAIMER
 THIS IS STILL A WORK IN PROGRESS FOR PROF OF CONCEPT PROJECT
 USE IT FOR EDUCATION PURPOSE ONLY

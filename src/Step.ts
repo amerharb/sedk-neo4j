@@ -36,7 +36,11 @@ export class Step implements Root, Match, Return {
 			? [first.name, ...this.matchParts.slice(1).map(label => `${label?.name}`)]
 			: ['', ...this.matchParts.map(label => `${label?.name}`)]
 
-		return `MATCH (${matchArray.join(':')}) RETURN ${this.returnParts.map(it => it.name).join(', ')}`
+		let cypher = `MATCH (${matchArray.join(':')})`
+		if (this.returnParts.length > 0) {
+			cypher += ` RETURN ${this.returnParts.map(variable => variable.name).join(', ')}`
+		}
+		return cypher
 	}
 
 	public cleanUp(): void {

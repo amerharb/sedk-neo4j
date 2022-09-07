@@ -47,6 +47,12 @@ describe('Step', () => {
 
 			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n')
 		})
+		// TODO: check if this a valid statement in Cypher
+		it('Produce: [MATCH (n:Person:Animal)]', () => {
+			const actual = cypher.match(n, Person, Animal).getCypher()
+
+			expect(actual).toBe('MATCH (n:Person:Animal)')
+		})
 	})
 
 	describe('Throwing Errors', () => {

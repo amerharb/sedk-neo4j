@@ -13,7 +13,7 @@ describe('Step', () => {
 	})
 	describe('simple Cypher', () => {
 		it('Produce: [MATCH (n) RETURN n]', () => {
-			const actual = cypher.match().return().getCypher()
+			const actual = cypher.match(n).return(n).getCypher()
 
 			expect(actual).toBe('MATCH (n) RETURN n')
 		})

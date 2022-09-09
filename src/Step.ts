@@ -1,11 +1,13 @@
 import { Label } from './Label'
 import { Variable } from './Variable'
+import { Asterisk } from './singletoneConstants'
 
-type VarLabels = [(Variable | Label)?, ...Label[]]
+type VarLabels = [(Variable | Label), ...Label[]]
+type ReturnItems = Variable[] | [...Variable[], Asterisk]
 
 export class Step implements Root, Match, Return {
-	private matchParts: VarLabels = []
-	private returnParts: Variable[] = []
+	private matchItems?: VarLabels
+	private returnItems?: ReturnItems
 
 	public match(variable: Variable): Match
 	public match(...Labels: Label[]): Match
@@ -14,43 +16,42 @@ export class Step implements Root, Match, Return {
 		if (varLabels.length === 0) {
 			throw new Error('No variable or labels provided')
 		}
-		this.matchParts.push(...varLabels)
+		this.matchItems = [...varLabels]
 		return this
 	}
 
-	public return(...variables: Variable[]): Return {
-		if (variables.length === 0) {
+	public return(...items: ReturnItems): Return {
+		if (items.length === 0) {
 			throw new Error('At least one variable must be provided')
 		}
-		this.returnParts.push(...variables)
+		this.returnItems = [...items]
 		return this
 	}
 
 	public getCypher(): string {
-		const first = this.matchParts[0]
-		if (first === undefined) {
+		if (this.matchItems === undefined || this.matchItems.length === 0) {
 			throw new Error('No variable or labels provided')
 		}
 
-		const matchArray = (first instanceof Variable)
-			? [first.name, ...this.matchParts.slice(1).map(label => `${label?.name}`)]
-			: ['', ...this.matchParts.map(label => `${label?.name}`)]
+		const matchArray = (this.matchItems[0] instanceof Variable)
+			? this.matchItems.map(it => it.getStmt())
+			: ['', ...this.matchItems.map(it => it.getStmt())]
 
 		let cypher = `MATCH (${matchArray.join(':')})`
-		if (this.returnParts.length > 0) {
-			cypher += ` RETURN ${this.returnParts.map(variable => variable.name).join(', ')}`
+		if (this.returnItems !== undefined && this.returnItems.length > 0) {
+			cypher += ` RETURN ${this.returnItems.map(it => it.getStmt()).join(', ')}`
 		}
 		return cypher
 	}
 
 	public cleanUp(): void {
-		this.matchParts.length = 0
-		this.returnParts.length = 0
+		this.matchItems = undefined
+		this.returnItems = undefined
 	}
 }
 
 export interface Match extends BaseStep {
-	return(...variables: Variable[]): Return
+	return(...items: ReturnItems): Return
 }
 
 export interface Return extends BaseStep {

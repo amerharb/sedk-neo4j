@@ -6,6 +6,7 @@
 - use Variable and Labels in "match()" step
 - use Variable in "return()" step
 - return a Cypher statement without return clause
+- use A `ASTERISK` in return step
 
 ## [0.0.2]  2022-07-20
 ### Added

@@ -5,6 +5,7 @@ import { database } from './database'
 const Person = database.Labels.Person
 const Animal = database.Labels.Animal
 const n = new sedk.Variable('n')
+const ASTERISK = sedk.ASTERISK
 
 describe('Step', () => {
 	const cypher = sedk.builder()
@@ -47,7 +48,17 @@ describe('Step', () => {
 
 			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n')
 		})
-		// TODO: check if this a valid statement in Cypher
+		it('Produce: [MATCH (n:Person:Animal) RETURN *]', () => {
+			const actual = cypher.match(n, Person, Animal).return(ASTERISK).getCypher()
+
+			expect(actual).toBe('MATCH (n:Person:Animal) RETURN *')
+		})
+		it('Produce: [MATCH (n:Person:Animal) RETURN n, *]', () => {
+			const actual = cypher.match(n, Person, Animal).return(n, ASTERISK).getCypher()
+
+			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n, *')
+		})
+		/** It is not valid cypher stmt but it is ok to get stmt before the end of chain */
 		it('Produce: [MATCH (n:Person:Animal)]', () => {
 			const actual = cypher.match(n, Person, Animal).getCypher()
 

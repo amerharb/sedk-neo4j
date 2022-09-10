@@ -5,6 +5,7 @@ import { database } from './database'
 const Person = database.Labels.Person
 const Animal = database.Labels.Animal
 const n = new sedk.Variable('n')
+const x = new sedk.Variable('x')
 const ASTERISK = sedk.ASTERISK
 
 describe('Step', () => {
@@ -17,26 +18,6 @@ describe('Step', () => {
 			const actual = cypher.match(n).return(n).getCypher()
 
 			expect(actual).toBe('MATCH (n) RETURN n')
-		})
-		it('Produce: [MATCH (n) RETURN n, n]', () => {
-			const actual = cypher.match(n).return(n, n).getCypher()
-
-			expect(actual).toBe('MATCH (n) RETURN n, n')
-		})
-		it('Produce: [MATCH (n) RETURN n, n, n]', () => {
-			const actual = cypher.match(n).return(n, n, n).getCypher()
-
-			expect(actual).toBe('MATCH (n) RETURN n, n, n')
-		})
-		it('Produce: [MATCH (:Person) RETURN n]', () => {
-			const actual = cypher.match(Person).return(n).getCypher()
-
-			expect(actual).toBe('MATCH (:Person) RETURN n')
-		})
-		it('Produce: [MATCH (:Person:Animal) RETURN n]', () => {
-			const actual = cypher.match(Person, Animal).return(n).getCypher()
-
-			expect(actual).toBe('MATCH (:Person:Animal) RETURN n')
 		})
 		it('Produce: [MATCH (n:Person) RETURN n]', () => {
 			const actual = cypher.match(n, Person).return(n).getCypher()
@@ -58,7 +39,7 @@ describe('Step', () => {
 
 			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n, *')
 		})
-		/** It is not valid cypher stmt but it is ok to get stmt before the end of chain */
+		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
 		it('Produce: [MATCH (n:Person:Animal)]', () => {
 			const actual = cypher.match(n, Person, Animal).getCypher()
 
@@ -81,6 +62,39 @@ describe('Step', () => {
 			const actual = () => cypher.match(n).return()
 
 			expect(actual).toThrow('At least one variable must be provided')
+		})
+		it('Throws: Asterisk must be the last item', () => {
+			// @ts-ignore
+			const actual = () => cypher.match(n).return(ASTERISK, n).getCypher()
+
+			expect(actual).toThrow('Asterisk must be the last item')
+		})
+		it('Throws: One or more variables are not in the match clause', () => {
+			const actual = () => cypher.match(n).return(x).getCypher()
+
+			expect(actual).toThrow('One or more variables are not in the match clause')
+		})
+		it('Throws: "One or more variables are not in the match clause" for [MATCH (:Person) RETURN n]', () => {
+			const actual = () => cypher.match(Person).return(n).getCypher()
+
+			expect(actual).toThrow('One or more variables are not in the match clause')
+		})
+		it('Throws: "Asterisk must be the last item" for [MATCH (n) RETURN (*, x)]', () => {
+			// @ts-ignore
+			const actual = () => cypher.match(n).return(ASTERISK, x).getCypher()
+
+			expect(actual).toThrow('Asterisk must be the last item')
+		})
+		it('Throws: "Return item duplicated" for [MATCH (n) RETURN n, n]', () => {
+			const actual = () => cypher.match(n).return(n, n).getCypher()
+
+			expect(actual).toThrow('Return item duplicated')
+		})
+		it('Throws: "Return item duplicated" for [MATCH (n) RETURN *, *]', () => {
+			// @ts-ignore
+			const actual = () => cypher.match(n).return(ASTERISK, ASTERISK).getCypher()
+
+			expect(actual).toThrow('Return item duplicated')
 		})
 	})
 })

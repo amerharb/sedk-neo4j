@@ -21,11 +21,37 @@ export class Step implements Root, Match, Return {
 	}
 
 	public return(...items: ReturnItems): Return {
-		if (items.length === 0) {
-			throw new Error('At least one variable must be provided')
-		}
+		checkItemsIsNotEmpty()
+		checkItemsAreNotDuplicated()
+		checkAstreiskIsLast()
+		checkItemsExistInReturn(this.matchItems)
 		this.returnItems = [...items]
 		return this
+
+		function checkItemsIsNotEmpty() {
+			if (items.length === 0) {
+				throw new Error('At least one variable must be provided')
+			}
+		}
+		function checkItemsAreNotDuplicated() {
+			const itemsSet = new Set(items)
+			if (items.length !== itemsSet.size) {
+				throw new Error('Return item duplicated')
+			}
+		}
+		function checkAstreiskIsLast() {
+			if (items.find((item, index) => item instanceof Asterisk && index !== items.length - 1)) {
+				throw new Error('Asterisk must be the last item')
+			}
+		}
+		function checkItemsExistInReturn(matchItems?: VarLabels) {
+			if (!items
+				.filter(it => it instanceof Variable)
+				.every(item => matchItems?.some(findItem => findItem === item))) {
+				throw new Error('One or more variables are not in the match clause')
+			}
+
+		}
 	}
 
 	public getCypher(): string {

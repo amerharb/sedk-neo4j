@@ -50,7 +50,6 @@ export class Step implements Root, Match, Return {
 				.every(item => matchItems?.some(findItem => findItem === item))) {
 				throw new Error('One or more variables are not in the match clause')
 			}
-
 		}
 	}
 

@@ -12,3 +12,9 @@ MATCH (n:Person:Animal) RETURN *
 
 cypher.match(n, Person, Animal).return(n, ASTERISK).getCypher()
 MATCH (n:Person:Animal) RETURN n, *
+
+cypher.match(Person).getCypher()
+MATCH (:Person)
+
+cypher.match(n, Person, Animal).getCypher()
+MATCH (n:Person:Animal)

@@ -1,5 +1,5 @@
-import * as sedk from '../src'
-import { database } from './database'
+import * as sedk from '../../src'
+import { database } from '../database'
 
 // Aliases
 const Person = database.Labels.Person
@@ -35,9 +35,9 @@ describe('Step', () => {
 			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n, *')
 		})
 		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
-		it('Produce: [MATCH (:Person:Animal)]', () => {
-			const actual = cypher.match(Person, Animal).getCypher()
-			expect(actual).toBe('MATCH (:Person:Animal)')
+		it('Produce: [MATCH (:Person)]', () => {
+			const actual = cypher.match(Person).getCypher()
+			expect(actual).toBe('MATCH (:Person)')
 		})
 		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
 		it('Produce: [MATCH (n:Person:Animal)]', () => {

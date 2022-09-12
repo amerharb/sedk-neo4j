@@ -1,6 +1,6 @@
 {
   "name": "sedk-neo4j",
-  "version": "0.0.3",
+  "version": "0.0.4-next.0",
   "description": "Cypher builder and validator for Neo4j",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",

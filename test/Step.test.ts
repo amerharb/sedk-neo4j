@@ -96,5 +96,11 @@ describe('Step', () => {
 
 			expect(actual).toThrow('Return item duplicated')
 		})
+		it('Throws: "RETURN ASTERISK is not allowed when there are no variables" for [MATCH (:Person) RETURN *]', () => {
+			// @ts-ignore
+			const actual = () => cypher.match(Person).return(ASTERISK).getCypher()
+
+			expect(actual).toThrow('RETURN ASTERISK is not allowed when there are no variables')
+		})
 	})
 })

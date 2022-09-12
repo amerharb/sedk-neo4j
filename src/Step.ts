@@ -23,8 +23,9 @@ export class Step implements Root, Match, Return {
 	public return(...items: ReturnItems): Return {
 		checkItemsIsNotEmpty()
 		checkItemsAreNotDuplicated()
-		checkAstreiskIsLast()
+		checkAsteriskIsLast()
 		checkItemsExistInReturn(this.matchItems)
+		checkThereIsVariableForAsterisk(this.matchItems)
 		this.returnItems = [...items]
 		return this
 
@@ -39,7 +40,7 @@ export class Step implements Root, Match, Return {
 				throw new Error('Return item duplicated')
 			}
 		}
-		function checkAstreiskIsLast() {
+		function checkAsteriskIsLast() {
 			if (items.find((item, index) => item instanceof Asterisk && index !== items.length - 1)) {
 				throw new Error('Asterisk must be the last item')
 			}
@@ -49,6 +50,14 @@ export class Step implements Root, Match, Return {
 				.filter(it => it instanceof Variable)
 				.every(item => matchItems?.some(findItem => findItem === item))) {
 				throw new Error('One or more variables are not in the match clause')
+			}
+		}
+		function checkThereIsVariableForAsterisk(matchItems?: VarLabels) {
+			if (
+				items[items.length - 1] instanceof Asterisk
+				&& !matchItems?.some(it => it instanceof Variable)
+			) {
+				throw new Error('RETURN ASTERISK is not allowed when there are no variables')
 			}
 		}
 	}

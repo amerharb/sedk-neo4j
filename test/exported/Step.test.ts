@@ -1,5 +1,5 @@
-import * as sedk from '../src'
-import { database } from './database'
+import * as sedk from '../../src'
+import { database } from '../database'
 
 // Aliases
 const Person = database.Labels.Person

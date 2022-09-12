@@ -30,7 +30,7 @@ const stmt = cypher.match(n, Person).return(n).getCypher()
 ![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-neo4j/main/doc/StepsRailRoad.svg)
 
 ## What is New
-### Version 0.0.3
+### Version 0.0.4
 - use A `ASTERISK` in return step
 ```typescript
 cypher.match(n, Person).return(ASTERISK).getCypher()

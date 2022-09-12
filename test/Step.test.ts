@@ -35,6 +35,11 @@ describe('Step', () => {
 			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n, *')
 		})
 		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
+		it('Produce: [MATCH (:Person:Animal)]', () => {
+			const actual = cypher.match(Person, Animal).getCypher()
+			expect(actual).toBe('MATCH (:Person:Animal)')
+		})
+		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
 		it('Produce: [MATCH (n:Person:Animal)]', () => {
 			const actual = cypher.match(n, Person, Animal).getCypher()
 			expect(actual).toBe('MATCH (n:Person:Animal)')

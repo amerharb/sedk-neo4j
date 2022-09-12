@@ -67,9 +67,10 @@ export class Step implements Root, Match, Return {
 			throw new Error('No variable or labels provided')
 		}
 
-		const matchArray = (this.matchItems[0] instanceof Variable)
-			? this.matchItems.map(it => it.getStmt())
-			: ['', ...this.matchItems.map(it => it.getStmt())]
+		const matchArray = this.matchItems.map(it => it.getStmt())
+		if (!(this.matchItems[0] instanceof Variable)) {
+			matchArray.unshift('')
+		}
 
 		let cypher = `MATCH (${matchArray.join(':')})`
 		if (this.returnItems !== undefined && this.returnItems.length > 0) {

@@ -29,6 +29,20 @@ const stmt = cypher.match(n, Person).return(n).getCypher()
 ## Steps Rail Road
 ![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-neo4j/main/doc/StepsRailRoad.svg)
 
-### DISCLAIMER
-THIS IS STILL A WORK IN PROGRESS FOR PROF OF CONCEPT PROJECT
-USE IT FOR EDUCATION PURPOSE ONLY
+## What is New
+### Version 0.0.4
+- use A `ASTERISK` in return step
+```typescript
+cypher.match(n, Person).return(ASTERISK).getCypher()
+// MATCH (n:Person) RETURN *
+```
+- multi label for the same node
+```typescript
+cypher.match(n, Person, Student).return(ASTERISK).getCypher()
+// MATCH (n:Person:Student) RETURN *
+```
+
+### ⚠️IMPORTANT⚠️
+ THIS IS STILL A WORK IN PROGRESS FOR PROF OF CONCEPT PROJECT.
+
+ USE IT FOR EDUCATION PURPOSE ONLY.

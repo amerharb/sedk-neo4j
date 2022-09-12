@@ -1,11 +1,13 @@
 import { Label } from './Label'
 import { Variable } from './Variable'
+import { Asterisk } from './singletoneConstants'
 
-type VarLabels = [(Variable | Label)?, ...Label[]]
+type VarLabels = [(Variable | Label), ...Label[]]
+type ReturnItems = Variable[] | [...Variable[], Asterisk]
 
 export class Step implements Root, Match, Return {
-	private matchParts: VarLabels = []
-	private returnParts: Variable[] = []
+	private matchItems?: VarLabels
+	private returnItems?: ReturnItems
 
 	public match(variable: Variable): Match
 	public match(...Labels: Label[]): Match
@@ -14,39 +16,77 @@ export class Step implements Root, Match, Return {
 		if (varLabels.length === 0) {
 			throw new Error('No variable or labels provided')
 		}
-		this.matchParts.push(...varLabels)
+		this.matchItems = [...varLabels]
 		return this
 	}
 
-	public return(...variables: Variable[]): Return {
-		if (variables.length === 0) {
-			throw new Error('At least one variable must be provided')
-		}
-		this.returnParts.push(...variables)
+	public return(...items: ReturnItems): Return {
+		checkItemsIsNotEmpty()
+		checkItemsAreNotDuplicated()
+		checkAsteriskIsLast()
+		checkItemsExistInReturn(this.matchItems)
+		checkThereIsVariableForAsterisk(this.matchItems)
+		this.returnItems = [...items]
 		return this
+
+		function checkItemsIsNotEmpty() {
+			if (items.length === 0) {
+				throw new Error('At least one variable must be provided')
+			}
+		}
+		function checkItemsAreNotDuplicated() {
+			const itemsSet = new Set(items)
+			if (items.length !== itemsSet.size) {
+				throw new Error('Return item duplicated')
+			}
+		}
+		function checkAsteriskIsLast() {
+			if (items.find((item, index) => item instanceof Asterisk && index !== items.length - 1)) {
+				throw new Error('Asterisk must be the last item')
+			}
+		}
+		function checkItemsExistInReturn(matchItems?: VarLabels) {
+			if (!items
+				.filter(it => it instanceof Variable)
+				.every(item => matchItems?.some(findItem => findItem === item))) {
+				throw new Error('One or more variables are not in the match clause')
+			}
+		}
+		function checkThereIsVariableForAsterisk(matchItems?: VarLabels) {
+			if (
+				items[items.length - 1] instanceof Asterisk
+				&& !matchItems?.some(it => it instanceof Variable)
+			) {
+				throw new Error('RETURN ASTERISK is not allowed when there are no variables')
+			}
+		}
 	}
 
 	public getCypher(): string {
-		const first = this.matchParts[0]
-		if (first === undefined) {
+		if (this.matchItems === undefined || this.matchItems.length === 0) {
 			throw new Error('No variable or labels provided')
 		}
 
-		const matchArray = (first instanceof Variable)
-			? [first.name, ...this.matchParts.slice(1).map(label => `${label?.name}`)]
-			: ['', ...this.matchParts.map(label => `${label?.name}`)]
+		const matchArray = this.matchItems.map(it => it.getStmt())
+		if (!(this.matchItems[0] instanceof Variable)) {
+			matchArray.unshift('')
+		}
 
-		return `MATCH (${matchArray.join(':')}) RETURN ${this.returnParts.map(it => it.name).join(', ')}`
+		let cypher = `MATCH (${matchArray.join(':')})`
+		if (this.returnItems !== undefined && this.returnItems.length > 0) {
+			cypher += ` RETURN ${this.returnItems.map(it => it.getStmt()).join(', ')}`
+		}
+		return cypher
 	}
 
 	public cleanUp(): void {
-		this.matchParts.length = 0
-		this.returnParts.length = 0
+		this.matchItems = undefined
+		this.returnItems = undefined
 	}
 }
 
 export interface Match extends BaseStep {
-	return(...variables: Variable[]): Return
+	return(...items: ReturnItems): Return
 }
 
 export interface Return extends BaseStep {

@@ -1,6 +1,11 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.0.4]  2022-09-12
+### Added
+- return a Cypher statement without return clause
+- use A `ASTERISK` in return step
+
 ## [0.0.3]  2022-09-05
 ### Added
 - use Variable and Labels in "match()" step

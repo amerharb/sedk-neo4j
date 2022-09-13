@@ -23,7 +23,7 @@ const n = new sedk.Variable('n')
 const cypher = sedk.builder()
 
 const stmt = cypher.match(n, Person).return(n).getCypher()
-// MATCH (n:Person) RETURN n
+// MATCH (`n`:`Person`) RETURN `n`
 ```
 
 ## Steps Rail Road
@@ -34,13 +34,15 @@ const stmt = cypher.match(n, Person).return(n).getCypher()
 - use A `ASTERISK` in return step
 ```typescript
 cypher.match(n, Person).return(ASTERISK).getCypher()
-// MATCH (n:Person) RETURN *
+// MATCH (`n`:`Person`) RETURN *
 ```
 - multi label for the same node
 ```typescript
 cypher.match(n, Person, Student).return(ASTERISK).getCypher()
-// MATCH (n:Person:Student) RETURN *
+// MATCH (`n`:`Person`:`Student`) RETURN *
 ```
+- Add backtick to generated label and variable names
+
 
 ### ⚠️IMPORTANT⚠️
  THIS IS STILL A WORK IN PROGRESS FOR PROF OF CONCEPT PROJECT.

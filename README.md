@@ -1,5 +1,5 @@
 # SEDK-neo4j
-![Version](https://img.shields.io/badge/version-0.0.3-blue.svg)
+![Version](https://img.shields.io/badge/version-0.0.4-blue.svg)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![Coverage Status](https://codecov.io/gh/amerharb/sedk-neo4j/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-neo4j)
 
@@ -27,7 +27,7 @@ const stmt = cypher.match(n, Person).return(n).getCypher()
 ```
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-neo4j/main/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-neo4j/b2d8e81fc8ba1a1f4bc28953abefa9a16e46c87c/doc/StepsRailRoad.svg)
 
 ## What is New
 ### Version 0.0.4

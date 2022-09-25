@@ -6,7 +6,6 @@ import * as fs from 'fs'
 const Person = database.Labels.Person
 const Animal = database.Labels.Animal
 const n = new sedk.Variable('n')
-const x = new sedk.Variable('x')
 const ASTERISK = sedk.ASTERISK
 
 describe('eval', () => {
@@ -16,8 +15,7 @@ describe('eval', () => {
 	})
 	describe('tests.csv', () => {
 		const file = fs.readFileSync('test/eval/tests.csv', 'utf8')
-		const lines = file.split('\n')
-		const codeCypherArray = unflatten(lines)
+		const codeCypherArray = parseInputFile(file)
 		codeCypherArray.forEach(line => {
 			it(`Produce: [${line.cypher}] for: <${line.code}>`, () => {
 				const actual = eval(line.code)
@@ -29,10 +27,10 @@ describe('eval', () => {
 
 type CodeCypher = { code: string, cypher: string }
 
-function unflatten(lines: string[]): CodeCypher[] {
-	const result: CodeCypher[] = []
-	for (let i = 0; i < lines.length; i += 3) {
-		result.push({ code: lines[i], cypher: lines[i + 1] })
-	}
-	return result
+function parseInputFile(file: string): CodeCypher[] {
+	const blocks = file.split(/[\r?\n]{2,}/g)
+	return blocks.map(block => {
+		const lines = block.split(/\r?\n/g)
+		return { code: lines[0], cypher: lines[1] }
+	})
 }

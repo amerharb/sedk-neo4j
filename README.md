@@ -1,5 +1,5 @@
 # SEDK-neo4j
-![Version](https://img.shields.io/badge/version-0.0.3-blue.svg)
+![Version](https://img.shields.io/badge/version-0.0.4-blue.svg)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![Coverage Status](https://codecov.io/gh/amerharb/sedk-neo4j/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-neo4j)
 
@@ -23,24 +23,26 @@ const n = new sedk.Variable('n')
 const cypher = sedk.builder()
 
 const stmt = cypher.match(n, Person).return(n).getCypher()
-// MATCH (n:Person) RETURN n
+// MATCH (`n`:`Person`) RETURN `n`
 ```
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-neo4j/main/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-neo4j/b2d8e81fc8ba1a1f4bc28953abefa9a16e46c87c/doc/StepsRailRoad.svg)
 
 ## What is New
 ### Version 0.0.4
 - use A `ASTERISK` in return step
 ```typescript
 cypher.match(n, Person).return(ASTERISK).getCypher()
-// MATCH (n:Person) RETURN *
+// MATCH (`n`:`Person`) RETURN *
 ```
 - multi label for the same node
 ```typescript
 cypher.match(n, Person, Student).return(ASTERISK).getCypher()
-// MATCH (n:Person:Student) RETURN *
+// MATCH (`n`:`Person`:`Student`) RETURN *
 ```
+- Add backtick to generated label and variable names
+
 
 ### ⚠️IMPORTANT⚠️
  THIS IS STILL A WORK IN PROGRESS FOR PROF OF CONCEPT PROJECT.

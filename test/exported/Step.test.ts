@@ -14,35 +14,35 @@ describe('Step', () => {
 		cypher.cleanUp()
 	})
 	describe('simple Cypher', () => {
-		it('Produce: [MATCH (n) RETURN n]', () => {
+		it('Produce: [MATCH (`n`) RETURN `n`]', () => {
 			const actual = cypher.match(n).return(n).getCypher()
-			expect(actual).toBe('MATCH (n) RETURN n')
+			expect(actual).toBe('MATCH (`n`) RETURN `n`')
 		})
-		it('Produce: [MATCH (n:Person) RETURN n]', () => {
+		it('Produce: [MATCH (`n`:`Person`) RETURN `n`]', () => {
 			const actual = cypher.match(n, Person).return(n).getCypher()
-			expect(actual).toBe('MATCH (n:Person) RETURN n')
+			expect(actual).toBe('MATCH (`n`:`Person`) RETURN `n`')
 		})
-		it('Produce: [MATCH (n:Person:Animal) RETURN n]', () => {
+		it('Produce: [MATCH (`n`:`Person`:`Animal`) RETURN `n`]', () => {
 			const actual = cypher.match(n, Person, Animal).return(n).getCypher()
-			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n')
+			expect(actual).toBe('MATCH (`n`:`Person`:`Animal`) RETURN `n`')
 		})
-		it('Produce: [MATCH (n:Person:Animal) RETURN *]', () => {
+		it('Produce: [MATCH (`n`:`Person`:`Animal`) RETURN *]', () => {
 			const actual = cypher.match(n, Person, Animal).return(ASTERISK).getCypher()
-			expect(actual).toBe('MATCH (n:Person:Animal) RETURN *')
+			expect(actual).toBe('MATCH (`n`:`Person`:`Animal`) RETURN *')
 		})
-		it('Produce: [MATCH (n:Person:Animal) RETURN n, *]', () => {
+		it('Produce: [MATCH (`n`:`Person`:`Animal`) RETURN `n`, *]', () => {
 			const actual = cypher.match(n, Person, Animal).return(n, ASTERISK).getCypher()
-			expect(actual).toBe('MATCH (n:Person:Animal) RETURN n, *')
+			expect(actual).toBe('MATCH (`n`:`Person`:`Animal`) RETURN `n`, *')
 		})
 		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
-		it('Produce: [MATCH (:Person)]', () => {
+		it('Produce: [MATCH (:`Person`)]', () => {
 			const actual = cypher.match(Person).getCypher()
-			expect(actual).toBe('MATCH (:Person)')
+			expect(actual).toBe('MATCH (:`Person`)')
 		})
 		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
-		it('Produce: [MATCH (n:Person:Animal)]', () => {
+		it('Produce: [MATCH (`n`:`Person`:`Animal`)]', () => {
 			const actual = cypher.match(n, Person, Animal).getCypher()
-			expect(actual).toBe('MATCH (n:Person:Animal)')
+			expect(actual).toBe('MATCH (`n`:`Person`:`Animal`)')
 		})
 	})
 

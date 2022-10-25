@@ -2,9 +2,10 @@ import { BaseStep } from './BaseStep'
 import { ReturnStep } from './ReturnStep'
 import { ReturnItems, VarLabels } from './types'
 import { Variable } from '../Variable'
+import { RootStep } from './RootStep'
 
 export class MatchStep extends BaseStep {
-	constructor(prevStep: BaseStep, public readonly matchItems: VarLabels) {
+	constructor(prevStep: RootStep, public readonly matchItems: VarLabels) {
 		super(prevStep)
 		if (matchItems.length === 0) {
 			throw new Error('No variable or labels provided')

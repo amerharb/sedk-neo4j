@@ -6,19 +6,15 @@ import { MatchStep } from './MatchStep'
 
 export class ReturnStep extends BaseStep {
 	public constructor(
-		prevStep: BaseStep,
+		prevStep: MatchStep,
 		private readonly items: ReturnItems,
 	) {
 		super(prevStep)
 		checkItemsIsNotEmpty()
 		checkItemsAreNotDuplicated()
 		checkAsteriskIsLast()
-		if (prevStep instanceof MatchStep) {
-			checkItemsExistInReturn(prevStep.matchItems)
-			checkThereIsVariableForAsterisk(prevStep.matchItems)
-		} else {
-			throw new Error('ReturnStep can only be used after MatchStep')
-		}
+		checkItemsExistInReturn(prevStep.matchItems)
+		checkThereIsVariableForAsterisk(prevStep.matchItems)
 
 		function checkItemsIsNotEmpty() {
 			if (items.length === 0) {

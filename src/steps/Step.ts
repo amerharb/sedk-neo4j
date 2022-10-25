@@ -2,11 +2,12 @@ import { Label } from '../Label'
 import { Variable } from '../Variable'
 import { Asterisk } from '../singletoneConstants'
 import { BaseStep } from './BaseStep'
+import { RootStep } from './RootStep'
+import { VarLabels } from './types'
 
-type VarLabels = [(Variable | Label), ...Label[]]
 type ReturnItems = Variable[] | [...Variable[], Asterisk]
 
-export class Step implements Root, Match, Return {
+export class Step implements RootStep, Match, Return {
 	private matchItems?: VarLabels
 	private returnItems?: ReturnItems
 
@@ -96,10 +97,3 @@ export interface Match extends BaseStep {
 
 export interface Return extends BaseStep {
 }
-
-export interface Root extends BaseStep {
-	match(variable: Variable): Match
-	match(...Labels: Label[]): Match
-	match(...varLabels: VarLabels): Match
-}
-

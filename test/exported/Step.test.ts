@@ -15,6 +15,16 @@ describe('Step', () => {
 			const actual = cypher.getCypher()
 			expect(actual).toBe('')
 		})
+		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
+		it('produces: [MATCH (:`Person`)]', () => {
+			const actual = cypher.match(Person).getCypher()
+			expect(actual).toBe('MATCH (:`Person`)')
+		})
+		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
+		it('produces: [MATCH (`n`:`Person`:`Animal`)]', () => {
+			const actual = cypher.match(n, Person, Animal).getCypher()
+			expect(actual).toBe('MATCH (`n`:`Person`:`Animal`)')
+		})
 		it('produces: [MATCH (`n`) RETURN `n`]', () => {
 			const actual = cypher.match(n).return(n).getCypher()
 			expect(actual).toBe('MATCH (`n`) RETURN `n`')
@@ -35,15 +45,17 @@ describe('Step', () => {
 			const actual = cypher.match(n, Person, Animal).return(n, ASTERISK).getCypher()
 			expect(actual).toBe('MATCH (`n`:`Person`:`Animal`) RETURN `n`, *')
 		})
-		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
-		it('produces: [MATCH (:`Person`)]', () => {
-			const actual = cypher.match(Person).getCypher()
-			expect(actual).toBe('MATCH (:`Person`)')
+	})
+
+	describe('Steps with common parent step', () => {
+		const match = cypher.match(n, Person)
+		it('produces: [MATCH (`n`:`Person`) RETURN `n`]', () => {
+			const actual = match.return(n).getCypher()
+			expect(actual).toBe('MATCH (`n`:`Person`) RETURN `n`')
 		})
-		/** It is not valid cypher stmt, but it is ok to get stmt before the end of chain */
-		it('produces: [MATCH (`n`:`Person`:`Animal`)]', () => {
-			const actual = cypher.match(n, Person, Animal).getCypher()
-			expect(actual).toBe('MATCH (`n`:`Person`:`Animal`)')
+		it('produces: [MATCH (`n`:`Person`) RETURN *]', () => {
+			const actual = match.return(ASTERISK).getCypher()
+			expect(actual).toBe('MATCH (`n`:`Person`) RETURN *')
 		})
 	})
 

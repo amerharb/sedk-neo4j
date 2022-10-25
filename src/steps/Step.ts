@@ -3,18 +3,17 @@ import { Variable } from '../Variable'
 import { Asterisk } from '../singletoneConstants'
 import { BaseStep } from './BaseStep'
 import { RootStep } from './RootStep'
-import { VarLabels } from './types'
+import { MatchStep } from './MatchStep'
+import { VarLabels, ReturnItems } from './types'
 
-type ReturnItems = Variable[] | [...Variable[], Asterisk]
-
-export class Step implements RootStep, Match, Return {
+export class Step implements RootStep, MatchStep, Return {
 	private matchItems?: VarLabels
 	private returnItems?: ReturnItems
 
-	public match(variable: Variable): Match
-	public match(...Labels: Label[]): Match
-	public match(...varLabels: VarLabels): Match
-	public match(...varLabels: VarLabels): Match {
+	public match(variable: Variable): MatchStep
+	public match(...Labels: Label[]): MatchStep
+	public match(...varLabels: VarLabels): MatchStep
+	public match(...varLabels: VarLabels): MatchStep {
 		if (varLabels.length === 0) {
 			throw new Error('No variable or labels provided')
 		}
@@ -89,10 +88,6 @@ export class Step implements RootStep, Match, Return {
 		this.matchItems = undefined
 		this.returnItems = undefined
 	}
-}
-
-export interface Match extends BaseStep {
-	return(...items: ReturnItems): Return
 }
 
 export interface Return extends BaseStep {

@@ -1,5 +1,5 @@
-import { Root, Step } from './Step'
+import { RootStep } from './steps/RootStep'
 
-export function builder(): Root {
-	return new Step()
+export function builder(): RootStep {
+	return new RootStep()
 }

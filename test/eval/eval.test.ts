@@ -10,9 +10,6 @@ const ASTERISK = sedk.ASTERISK
 
 describe('eval', () => {
 	const cypher = sedk.builder()
-	afterEach(() => {
-		cypher.cleanUp()
-	})
 	describe('tests.csv', () => {
 		const file = fs.readFileSync('test/eval/tests.csv', 'utf8')
 		const codeCypherArray = parseInputFile(file)

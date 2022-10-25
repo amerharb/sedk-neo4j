@@ -34,17 +34,20 @@ export class Step implements Root, Match, Return {
 				throw new Error('At least one variable must be provided')
 			}
 		}
+
 		function checkItemsAreNotDuplicated() {
 			const itemsSet = new Set(items)
 			if (items.length !== itemsSet.size) {
 				throw new Error('Return item duplicated')
 			}
 		}
+
 		function checkAsteriskIsLast() {
 			if (items.find((item, index) => item instanceof Asterisk && index !== items.length - 1)) {
 				throw new Error('Asterisk must be the last item')
 			}
 		}
+
 		function checkItemsExistInReturn(matchItems?: VarLabels) {
 			if (!items
 				.filter(it => it instanceof Variable)
@@ -52,6 +55,7 @@ export class Step implements Root, Match, Return {
 				throw new Error('One or more variables are not in the match clause')
 			}
 		}
+
 		function checkThereIsVariableForAsterisk(matchItems?: VarLabels) {
 			if (
 				items[items.length - 1] instanceof Asterisk
@@ -90,7 +94,6 @@ export interface Match extends BaseStep {
 }
 
 export interface Return extends BaseStep {
-	getCypher(): string
 }
 
 export interface Root extends BaseStep {

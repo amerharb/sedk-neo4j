@@ -48,14 +48,12 @@ describe('Step', () => {
 	})
 
 	describe('Steps with common parent step', () => {
-		const match = cypher.match(n, Person)
-		it('produces: [MATCH (`n`:`Person`) RETURN `n`]', () => {
-			const actual = match.return(n).getCypher()
-			expect(actual).toBe('MATCH (`n`:`Person`) RETURN `n`')
-		})
-		it('produces: [MATCH (`n`:`Person`) RETURN *]', () => {
-			const actual = match.return(ASTERISK).getCypher()
-			expect(actual).toBe('MATCH (`n`:`Person`) RETURN *')
+		it('produces: [MATCH (`n`:`Person`) RETURN `n`] & [MATCH (`n`:`Person`) RETURN *]', () => {
+			const match = cypher.match(n, Person)
+			const actual1 = match.return(n).getCypher()
+			const actual2 = match.return(ASTERISK).getCypher()
+			expect(actual1).toBe('MATCH (`n`:`Person`) RETURN `n`')
+			expect(actual2).toBe('MATCH (`n`:`Person`) RETURN *')
 		})
 	})
 

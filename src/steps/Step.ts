@@ -1,6 +1,7 @@
-import { Label } from './Label'
-import { Variable } from './Variable'
-import { Asterisk } from './singletoneConstants'
+import { Label } from '../Label'
+import { Variable } from '../Variable'
+import { Asterisk } from '../singletoneConstants'
+import { BaseStep } from './BaseStep'
 
 type VarLabels = [(Variable | Label), ...Label[]]
 type ReturnItems = Variable[] | [...Variable[], Asterisk]
@@ -102,7 +103,3 @@ export interface Root extends BaseStep {
 	match(...varLabels: VarLabels): Match
 }
 
-export interface BaseStep {
-	cleanUp(): void
-	getCypher(): string
-}

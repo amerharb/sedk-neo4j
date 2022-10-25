@@ -1,4 +1,4 @@
-import { Root, Step } from './Step'
+import { Root, Step } from './steps/Step'
 
 export function builder(): Root {
 	return new Step()

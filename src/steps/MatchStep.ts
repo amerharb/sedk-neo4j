@@ -1,7 +1,26 @@
 import { BaseStep } from './BaseStep'
-import { Return } from './Step'
-import { ReturnItems } from './types'
+import { ReturnStep } from './ReturnStep'
+import { ReturnItems, VarLabels } from './types'
+import { Variable } from '../Variable'
 
-export abstract class MatchStep extends BaseStep {
-	public abstract return(...items: ReturnItems): Return
+export class MatchStep extends BaseStep {
+	constructor(prevStep: BaseStep, private readonly matchItems: VarLabels) {
+		super(prevStep)
+		if (matchItems.length === 0) {
+			throw new Error('No variable or labels provided')
+		}
+	}
+
+	public toString(): string {
+		const matchArray = this.matchItems.map(it => it.getStmt())
+		if (!(this.matchItems[0] instanceof Variable)) {
+			matchArray.unshift('')
+		}
+
+		return `MATCH (${matchArray.join(':')})`
+	}
+
+	public return(...items: ReturnItems): ReturnStep {
+		return new ReturnStep(this, items)
+	}
 }

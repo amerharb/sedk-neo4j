@@ -1,19 +1,16 @@
 import { Label } from '../Label'
 import { Variable } from '../Variable'
 import { Asterisk } from '../singletoneConstants'
-import { RootStep } from './RootStep'
-import { MatchStep } from './MatchStep'
-import { ReturnStep } from './ReturnStep'
 import { VarLabels, ReturnItems } from './types'
 
-export class Step implements RootStep, MatchStep, ReturnStep {
+export class Step {
 	private matchItems?: VarLabels
 	private returnItems?: ReturnItems
 
-	public match(variable: Variable): MatchStep
-	public match(...Labels: Label[]): MatchStep
-	public match(...varLabels: VarLabels): MatchStep
-	public match(...varLabels: VarLabels): MatchStep {
+	public match(variable: Variable): Step
+	public match(...Labels: Label[]): Step
+	public match(...varLabels: VarLabels): Step
+	public match(...varLabels: VarLabels): Step {
 		if (varLabels.length === 0) {
 			throw new Error('No variable or labels provided')
 		}
@@ -21,7 +18,7 @@ export class Step implements RootStep, MatchStep, ReturnStep {
 		return this
 	}
 
-	public return(...items: ReturnItems): ReturnStep {
+	public return(...items: ReturnItems): Step {
 		checkItemsIsNotEmpty()
 		checkItemsAreNotDuplicated()
 		checkAsteriskIsLast()

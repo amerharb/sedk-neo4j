@@ -10,9 +10,6 @@ const ASTERISK = sedk.ASTERISK
 
 describe('Step', () => {
 	const cypher = sedk.builder()
-	afterEach(() => {
-		cypher.cleanUp()
-	})
 	describe('simple Cypher', () => {
 		it('Produce: [MATCH (`n`) RETURN `n`]', () => {
 			const actual = cypher.match(n).return(n).getCypher()

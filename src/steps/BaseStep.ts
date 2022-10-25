@@ -1,5 +1,5 @@
 export abstract class BaseStep {
-	public constructor(protected readonly prevStep: BaseStep | null) {
+	protected constructor(protected readonly prevStep: BaseStep | null) {
 	}
 
 	public getCypher(): string {

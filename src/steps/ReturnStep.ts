@@ -2,6 +2,7 @@ import { BaseStep } from './BaseStep'
 import { ReturnItems, VarLabels } from './types'
 import { Asterisk } from '../singletoneConstants'
 import { Variable } from '../Variable'
+import { MatchStep } from './MatchStep'
 
 export class ReturnStep extends BaseStep {
 	public constructor(
@@ -12,8 +13,12 @@ export class ReturnStep extends BaseStep {
 		checkItemsIsNotEmpty()
 		checkItemsAreNotDuplicated()
 		checkAsteriskIsLast()
-		// checkItemsExistInReturn(this.matchItems)
-		// checkThereIsVariableForAsterisk(this.matchItems)
+		if (prevStep instanceof MatchStep) {
+			checkItemsExistInReturn(prevStep.matchItems)
+			checkThereIsVariableForAsterisk(prevStep.matchItems)
+		} else {
+			throw new Error('ReturnStep can only be used after MatchStep')
+		}
 
 		function checkItemsIsNotEmpty() {
 			if (items.length === 0) {

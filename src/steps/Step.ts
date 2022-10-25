@@ -1,12 +1,12 @@
 import { Label } from '../Label'
 import { Variable } from '../Variable'
 import { Asterisk } from '../singletoneConstants'
-import { BaseStep } from './BaseStep'
 import { RootStep } from './RootStep'
 import { MatchStep } from './MatchStep'
+import { ReturnStep } from './ReturnStep'
 import { VarLabels, ReturnItems } from './types'
 
-export class Step implements RootStep, MatchStep, Return {
+export class Step implements RootStep, MatchStep, ReturnStep {
 	private matchItems?: VarLabels
 	private returnItems?: ReturnItems
 
@@ -21,7 +21,7 @@ export class Step implements RootStep, MatchStep, Return {
 		return this
 	}
 
-	public return(...items: ReturnItems): Return {
+	public return(...items: ReturnItems): ReturnStep {
 		checkItemsIsNotEmpty()
 		checkItemsAreNotDuplicated()
 		checkAsteriskIsLast()
@@ -90,5 +90,3 @@ export class Step implements RootStep, MatchStep, Return {
 	}
 }
 
-export interface Return extends BaseStep {
-}
